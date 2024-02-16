@@ -4,67 +4,64 @@ const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const MockAdapter = require('@bot-whatsapp/database/mock')
 
-const flowSecundario = addKeyword(['2', 'siguiente']).addAnswer(['📄 Aquí tenemos el flujo secundario'])
 
-const flowDocs = addKeyword(['doc', 'documentacion', 'documentación']).addAnswer(
-    [
-        '📄 Aquí encontras las documentación recuerda que puedes mejorarla',
-        'https://bot-whatsapp.netlify.app/',
-        '\n*2* Para siguiente paso.',
-    ],
-    null,
-    null,
-    [flowSecundario]
-)
+const botondesentimiento= addKeyword('¿Cómo te sientes ?').addAnswer('Elige tu estado de animo', {
+    buttons: [{ body: 'Bien :)' }, { body: 'Mal :(' }, { body: 'Triste :((' }, { body: 'Muy Feliz :)' }, { body: 'No muy bien :Z' }],
+})
 
-const flowTuto = addKeyword(['tutorial', 'tuto']).addAnswer(
-    [
-        '🙌 Aquí encontras un ejemplo rapido',
-        'https://bot-whatsapp.netlify.app/docs/example/',
-        '\n*2* Para siguiente paso.',
-    ],
-    null,
-    null,
-    [flowSecundario]
-)
+//CREACIÓN DE INTENT " ORIENTACION CON PROFESIONALES"
 
-const flowGracias = addKeyword(['gracias', 'grac']).addAnswer(
-    [
-        '🚀 Puedes aportar tu granito de arena a este proyecto',
-        '[*opencollective*] https://opencollective.com/bot-whatsapp',
-        '[*buymeacoffee*] https://www.buymeacoffee.com/leifermendez',
-        '[*patreon*] https://www.patreon.com/leifermendez',
-        '\n*2* Para siguiente paso.',
-    ],
-    null,
-    null,
-    [flowSecundario]
-)
 
-const flowDiscord = addKeyword(['discord']).addAnswer(
-    ['🤪 Únete al discord', 'https://link.codigoencasa.com/DISCORD', '\n*2* Para siguiente paso.'],
-    null,
-    null,
-    [flowSecundario]
-)
 
-const flowPrincipal = addKeyword(['hola', 'ole', 'alo'])
-    .addAnswer('🙌 Hola bienvenido a este *Chatbot*')
-    .addAnswer(
-        [
-            'te comparto los siguientes links de interes sobre el proyecto',
-            '👉 *doc* para ver la documentación',
-            '👉 *gracias*  para ver la lista de videos',
-            '👉 *discord* unirte al discord',
-        ],
-        null,
-        null,
-        [flowDocs, flowGracias, flowTuto, flowDiscord]
-    )
+const orientacion = addKeyword(['No es suficiente tu ayuda', 'Necesito mayor apoyo' , 'Necesito acudir con un profesional' , 'Ya no puedo mas con esto', 'Creo que necesito mas ayuda','Me podrias ayudar mas','Necesito mas apoyo','Conoces a alguien mas que me pueda ayudar'])
+    .addAnswer(['No te preocupes te proporcionaremos una lista con los contactos de profesionales que te podran brindar un mayor apoyo. Acude con ellos cuanto antes. RECUERDA NO ESTAS SOL@.'])
+    .addAnswer(['(LISTA DE CONTACTOS)'])
+
+//CREACIÓN DE INTENT "PETICION DE AYUDA"
+
+
+
+const peticionde_ayuda= addKeyword(['¿Que debo hacer?', 'Tengo dudas', 'Estoy intranquila','Quiero platicar'])
+    .addAnswer(['No te preocupes estamos para ayudarte, recuerda que somos tus amigas y estamos simpre para ti. Vamos a platicar va.'])
+
+
+//CORRECCIÓN DE INTENTS AVANCE ANTERIOR
+
+//CREACIÓN DE INTENT " SALUDO"
+
+
+
+const saludo = addKeyword(['Hola', 'Hi' , 'Holis' , 'Qué tal'])
+    .addAnswer(['Bienvenid@, somos Ana y Mia . ', '¿Como podemos ayudarte?'])
+
+
+//CREACIÓN DE INTENT "DESPEDIDA"
+
+
+
+const DESPEDIDA= addKeyword(['Adiós','Adiós', 'Bye' , 'Hasta luego' , 'Nos vemos'])
+    .addAnswer(['Nos vemos pronto.'])
+    .addAnswer(['Fue un gusto saludarte :)' ])
+
+//CREACIÓN DE INTENT "Sentimientos negativos"
+
+
+const sentimiento = addKeyword(['Me siento mal', 'Es un mal dia' , 'No me encuentro nada bien' , 'Estoy mal', 'Estoy triste'])
+    .addAnswer(['No te preocupes,todo mejorará'])
+    .addAnswer(['¿Te gustaría platicar con nosotras?'])
+
+
+//CREACIÓN DE INTENT "Sentimientos positivo"
+
+
+
+const sentimientop = addKeyword(['Me siento bien', 'Es un buen dia' , 'Me encuentro  bien' , 'Estoy bien', 'Estoy feliz'])
+    .addAnswer(['Nos alegramos mucho por ti. Sigue teniendo un bello dia. :) '])
+
 
 const main = async () => {
     const adapterDB = new MockAdapter()
-    const adapterFlow = createFlow([flowPrincipal])
+    const adapterFlow = createFlow([saludo,sentimiento,DESPEDIDA,peticionde_ayuda,orientacion])
     const adapterProvider = createProvider(BaileysProvider)
 
     createBot({
