@@ -15,6 +15,33 @@ const MongoAdapter = require('@bot-whatsapp/database/mongo')
 const MONGO_DB_URI = 'mongodb+srv://anaymiachatbot:123456anaymia@projectanaymia.yiho2sz.mongodb.net/?retryWrites=true&w=majority'
 const MONGO_DB_NAME = 'anaymiaDB'
 
+const botondesentimiento= addKeyword('¿Cómo te sientes ?').addAnswer('Elige tu estado de animo', {
+    buttons: [{ body: 'Bien :)' }, { body: 'Mal :(' }, { body: 'Triste :((' }, { body: 'Muy Feliz :)' }, { body: 'No muy bien :Z' }],
+});
+
+const flowgetName = addKeyword(['hola'])
+        .addAnswer(
+            '¿Cual es tu nombre?',
+            {
+                capture: true,
+            },
+            async (ctx, { flowDynamic, state }) => {
+                await state.update({ name: ctx.body })
+                await flowDynamic(`Gracias por tu nombre!, ${ctx.body} ahora podemos conocernos aun más nosotras somos Ana & Mia`)
+            }
+        )
+        .addAnswer(
+            '¿Cual es tu edad?',
+            {
+                capture: true,
+            },
+            async (ctx, { flowDynamic, state }) => {
+                await state.update({ age: ctx.body })
+                const myState = state.getMyState()
+                await flowDynamic(`Gracias por tu edad! ${myState.name}`)
+            }
+        )
+
 // Inicia con las interacciones del usuario
 const flowResponseOk = addKeyword(
     [
@@ -93,7 +120,7 @@ const main = async () => {
         dbUri: MONGO_DB_URI,
         dbName: MONGO_DB_NAME,
     })
-    const adapterFlow = createFlow([flowPrincipal, flowAutoAtact])
+    const adapterFlow = createFlow([flowAutoAtact, flowgetName])
     const adapterProvider = createProvider(BaileysProvider)
     createBot({
         flow: adapterFlow,
