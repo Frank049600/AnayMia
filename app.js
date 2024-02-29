@@ -26,7 +26,8 @@ const flowResponseOk = addKeyword(
         'Si, me gustaría',
         'Claro',
         'Con gusto',
-        'Simon'
+        'Simon',
+        'Por supuesto'
     ])
     .addAnswer(
         [
