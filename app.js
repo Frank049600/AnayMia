@@ -39,6 +39,7 @@ const flowBat = addKeyword(
     [
         'Mal',
         'pior',
+        'pesimo',
         'Me siento mal',
         'Me siento pésimo',
         'Me ha ido muy mal',
