@@ -4,7 +4,7 @@ const {
     createFlow,
     addKeyword,
     EVENTS } = require('@bot-whatsapp/bot')
-
+ 
 const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const MongoAdapter = require('@bot-whatsapp/database/mongo')
@@ -14,11 +14,11 @@ const MongoAdapter = require('@bot-whatsapp/database/mongo')
  */
 const MONGO_DB_URI = 'mongodb+srv://anaymiachatbot:123456anaymia@projectanaymia.yiho2sz.mongodb.net/?retryWrites=true&w=majority'
 const MONGO_DB_NAME = 'anaymiaDB'
-
+ 
 const botondesentimiento = addKeyword('¿Cómo te sientes ?').addAnswer('Elige tu estado de animo', {
     buttons: [{ body: 'Bien :)' }, { body: 'Mal :(' }, { body: 'Triste :((' }, { body: 'Muy Feliz :)' }, { body: 'No muy bien :Z' }],
 })
-
+ 
 // Inicia con las interacciones del usuario
 const flowResponseOk = addKeyword(
     [
@@ -34,7 +34,7 @@ const flowResponseOk = addKeyword(
             'Cuéntanos sobre tu día.',
             'Somos todo oídos'
         ])
-
+ 
 const flowBat = addKeyword(
     [
         'Mal',
@@ -51,7 +51,7 @@ const flowBat = addKeyword(
     .addAnswer(['No te preocupes, todo mejorará', '¿Te gustaría platicar con nosotras?'], {
         delay: 1500
     }, null, flowResponseOk)
-
+ 
 const flowGood = addKeyword(
     [
         'Bien',
@@ -69,7 +69,7 @@ const flowGood = addKeyword(
     .addAnswer('¿Quieres platicarnos más sobre tu día?', {
         delay: 1500
     }, null, flowResponseOk)
-
+ 
 const flowAutoAtact = addKeyword(
     [
         'Nadie me querrás así',
@@ -86,7 +86,7 @@ const flowAutoAtact = addKeyword(
             '¡No creo que sea verdad!',
             'Viniste a este mundo a ser feliz, no a buscar la perfección en tu cuerpo, eso solo puede conducirte a sufrir.'
         ])
-
+ 
 //CREACIÓN DE FLUJO " ORIENTACIÓN CON PROFESIONALES"
 const flowOrientacion = addKeyword(
     [
@@ -104,7 +104,7 @@ const flowOrientacion = addKeyword(
     .addAnswer([
         '(LISTA DE CONTACTOS)'
     ])
-
+ 
 //CREACIÓN DE FLUJO "PETICIÓN DE AYUDA"
 const peticionde_ayuda = addKeyword(
     [
@@ -116,7 +116,7 @@ const peticionde_ayuda = addKeyword(
     .addAnswer([
         'No te preocupes estamos para ayudarte, recuerda que somos tus amigas y estamos siempre para ti. Vamos a platicar va.'
     ])
-
+ 
 // CREACIÓN DE FLUJO "DESPEDIDA"
 const DESPEDIDA = addKeyword(
     [
@@ -133,7 +133,7 @@ const DESPEDIDA = addKeyword(
         [
             'Fue un gusto saludarte :)'
         ])
-
+ 
 // PREGUNTAS
 const FLOPregunta = addKeyword(
     [
@@ -158,7 +158,7 @@ const flowConfianza = addKeyword(
         '¿Alguien más se enterara de lo que cuento?'
     ])
     .addAnswer(['No te preocupes no le contare a nadie', 'Quedará entre nosotros'])
-
+ 
 const flowgetName = addKeyword(['hola'])
     .addAnswer(
         '¿Cual es tu nombre?',
@@ -181,7 +181,35 @@ const flowgetName = addKeyword(['hola'])
             await flowDynamic(`Gracias por tu edad! ${myState.name}`)
         }
     )
-
+ 
+   
+const flujoFinal = addKeyword(EVENTS.ACTION).addAnswer('Nos vemos luego', 
+{
+    media: "C:/Users/LAB04-08/Desktop/AnayMia/img/png-clipart-cartoon-animation-cartoon-farewell-party-cartoon-character-child.png"
+})
+ 
+const flujoPrincipalll = addKeyword(['adios','Adiós','Adios'])
+    .addAnswer([
+       '¿De verdad ya no quieres platicar con nosotras? (No respondas nada si tu respuesta es "SI")'],
+        {
+            capture: true,
+            idle: 10000
+        }, // idle: 10000 = 10 segundos
+        async (ctx, { gotoFlow, inRef }) => {
+            if (ctx?.idleFallBack) {
+                return gotoFlow(flujoFinal)
+            }
+        }
+    )
+ 
+ 
+ 
+//BOTONES DE SATISFACCIÓN EN CONVERSACIÓN
+ 
+    const flowString = addKeyword('eso es todo').addAnswer('ANTES DE IRTE PUEDES DECIRNOS COMO TE SIENTES DESPUES DE PLATICAR CON NOSOTRAS', {
+        buttons: [{ body: 'MUY BIEN' }, { body: 'MAL' }, { body: 'NO ME AYUDO' }],
+    })
+ 
 const flowPrincipal = addKeyword(
     [
         'Que tal',
@@ -215,17 +243,13 @@ const flowPrincipal = addKeyword(
             await flowDynamic(`Gracias por tu edad! ${myState.name}`)
         }
     )
-    .addAnswer(`¿Cómo te encuentras el día de hoy ${myState.name}?`,
-        {
-            capture: true
-        }, null, [flowGood, flowBat])
-
+ 
 const main = async () => {
     const adapterDB = new MongoAdapter({
         dbUri: MONGO_DB_URI,
         dbName: MONGO_DB_NAME,
     })
-    const adapterFlow = createFlow([flowPrincipal, flowAutoAtact])
+    const adapterFlow = createFlow([flowAutoAtact,flujoFinal,flujoPrincipalll])
     const adapterProvider = createProvider(BaileysProvider)
     createBot({
         flow: adapterFlow,
@@ -238,5 +262,5 @@ const main = async () => {
     //})
     QRPortalWeb()
 }
-
+ 
 main()
