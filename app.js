@@ -28,7 +28,8 @@ const flowResponseOk = addKeyword(
         'Con gusto',
         'Simon',
         'Por supuesto',
-        'Si, claro'
+        'Si, claro',
+        'ok'
     ])
     .addAnswer(
         [
