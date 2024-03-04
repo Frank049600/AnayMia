@@ -3,8 +3,7 @@ const {
     createProvider,
     createFlow,
     addKeyword,
-    EVENTS,
-    addAnswer } = require('@bot-whatsapp/bot')
+    EVENTS } = require('@bot-whatsapp/bot')
 
 const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
@@ -20,11 +19,7 @@ const botondesentimiento = addKeyword('¿Cómo te sientes ?').addAnswer('Elige t
     buttons: [{ body: 'Bien :)' }, { body: 'Mal :(' }, { body: 'Triste :((' }, { body: 'Muy Feliz :)' }, { body: 'No muy bien :Z' }],
 })
 
-//                                                  //
-//                RECURSOS                          //
-//                                                  //
-//             Se declaran las variables            //
-let RUTE_IMG = 'C:/Users/Paco/Desktop/AnayMia/img/'
+// Se declaran las variables que se utilizarán en la conversación
 let nombre
 let sentimiento
 
@@ -59,13 +54,9 @@ const flowBat = addKeyword(
         'Estoy mal',
         'Estoy triste'
     ])
-    .addAnswer(
-        [
-            'No te preocupes, todo mejorará'
-        ],
-        async (ctx, { flowDynamic }) => {
-            await flowDynamic(`¿Te gustaría platicar con nosotras ${nombre}?`)
-        })
+    .addAnswer(['No te preocupes, todo mejorará', '¿Te gustaría platicar con nosotras?'], {
+        delay: 1500
+    }, null, flowResponseOk)
 
 const flowGood = addKeyword(
     [
@@ -186,37 +177,20 @@ const flowPrincipal = addKeyword(
     ])
     .addAnswer(
         [
-            '¡Hola!, somos Ana&Mia 😁',
+            '¡Hola!, somos Ana&Mia',
             'Que gusto saludarte'
-        ]
-    )
-    .addAnswer('Creo que aun no nos conocemos 😧 , ¿Cuál es tu nombre?',
-        {
-            capture: true
-        },
-        async (ctx, { flowDynamic }) => {
+        ])
+    .addAnswer('Creo que aun no nos conocemos, ¿Cuál es tu nombre?', {
+        capture: true
+    },
+        async (ctx, { flowDynamic, state }) => {
+            await state.update({ name: ctx.body })
             nombre = ctx.body
-            ///await flowDynamic(
-            ///    [
-            ///        `¡Encantadas en conocerte *${nombre}!*`,
-            ///        'Nosotras te brindaremos toda la atención que necesites y jamás te juzgaremos 😊',
-            ///        'Estas a salvo con nosotras',
-            ///        {
-            ///            delay: 2000,
-            ///        }
-            ///    ])
-            await flowDynamic(`Encantadas en conocerte ${nombre}`,
-                {
-                    media: RUTE_IMG + 'Ana&Mia.png'
-                })
-        }
-    )
-    .addAnswer('¿Cómo te encuentras el día de hoy?',
-        {
-            capture: true
-        }, null, [flowBat, flowGood],
-        null, async (ctx) => {
-            sentimiento = ctx.body
+            await flowDynamic(
+                [
+                    `Encantadas de conocerte ${nombre}!`,
+                    '¡Ahora podemos conocernos más!'
+                ])
         }
     )
 

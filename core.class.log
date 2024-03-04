@@ -2,37 +2,187 @@
   key: {
     remoteJid: '5214641479724@s.whatsapp.net',
     fromMe: false,
-    id: '7D077B8BB79DA29F5BA00D917F538363',
+    id: '1E4210B7139FBA128E',
     participant: undefined
   },
-  messageTimestamp: 1709259104,
+  messageTimestamp: 1709489774,
   pushName: 'Francisco Hernández',
   broadcast: false,
   message: Message {
-    conversation: 'Adiós',
+    extendedTextMessage: ExtendedTextMessage { text: 'Hola', contextInfo: [ContextInfo] },
     messageContextInfo: MessageContextInfo {
       deviceListMetadata: [DeviceListMetadata],
       deviceListMetadataVersion: 2
     }
   },
-  body: 'Adiós',
+  body: 'Hola',
   from: '5214641479724'
 }
 [QUEUE_SE_ENVIO]:  {
-  ref: 'ans_9641d31e-d1f8-478e-8c4c-246a40f65ed8',
-  keyword: 'key_80279335-67ce-4954-91ce-f2fb859bd325',
-  answer: '¿De verdad ya no quieres platicar con nosotras? (No respondas nada si tu respuesta es "SI")',
+  ref: 'ans_d00e81d2-4dd5-4520-bac8-72a3e61a5d79',
+  keyword: 'key_b611f0db-0a6f-4dc7-a910-8b33f1d2e951',
+  answer: '¡Hola!, somos Ana&Mia 😁\nQue gusto saludarte',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: false
+  },
+  refSerialize: '323c857b7b07532c81e5dc843fd6c3ca'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_a454a48b-0d14-43cf-8a4e-92d8d0849b09',
+  keyword: 'ans_d00e81d2-4dd5-4520-bac8-72a3e61a5d79',
+  answer: 'Creo que aun no nos conocemos 😧 , ¿Cuál es tu nombre?',
   options: {
     media: null,
     buttons: [],
     capture: true,
     child: null,
     delay: 0,
-    idle: 10000,
+    idle: null,
     ref: null,
     nested: [],
     keyword: {},
     callback: true
   },
-  refSerialize: '18225e694f96891d9dbe8d22cc66419c'
+  refSerialize: '0e78e75a7d277fe3b6e8ad36b13f43db'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641479724@s.whatsapp.net',
+    fromMe: false,
+    id: 'A6550E904DFF9C5588',
+    participant: undefined
+  },
+  messageTimestamp: 1709489782,
+  pushName: 'Francisco Hernández',
+  broadcast: false,
+  message: Message {
+    extendedTextMessage: ExtendedTextMessage { text: 'Lalo', contextInfo: [ContextInfo] },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Lalo',
+  from: '5214641479724'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_07b1e5b2-49c9-4b85-90b5-4a2e3ded05f1',
+  keyword: 'ans_a454a48b-0d14-43cf-8a4e-92d8d0849b09',
+  answer: '¿Cómo te encuentras el día de hoy?',
+  options: {
+    media: null,
+    buttons: [],
+    capture: true,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [ [Object], [Object], [Object], [Object], [Object] ],
+    keyword: {},
+    callback: false
+  },
+  refSerialize: '22caf4dc44652a09fecc99502daccc96'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641479724@s.whatsapp.net',
+    fromMe: false,
+    id: '2D006E4344C3E224D6',
+    participant: undefined
+  },
+  messageTimestamp: 1709489788,
+  pushName: 'Francisco Hernández',
+  broadcast: false,
+  message: Message {
+    extendedTextMessage: ExtendedTextMessage { text: 'Bien', contextInfo: [ContextInfo] },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Bien',
+  from: '5214641479724'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_bf7df1d5-0765-48e3-b116-f9c9c24e60d5',
+  keyword: 'key_827b8180-066e-4f1d-80a5-42426a24da64',
+  answer: 'Nos da gusto saberlo.',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: false
+  },
+  refSerialize: '02bd8842b6ac0e8a8f779b6f2fb2c36d'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_450c3c4f-2c17-422a-9747-a87b6980c330',
+  keyword: 'ans_bf7df1d5-0765-48e3-b116-f9c9c24e60d5',
+  answer: '¿Quieres platicarnos más sobre tu día?',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 1500,
+    idle: null,
+    ref: null,
+    nested: [ [Object], [Object] ],
+    keyword: {},
+    callback: false
+  },
+  refSerialize: 'ed84007fcb7e4aec7048f728558c9bbf'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641479724@s.whatsapp.net',
+    fromMe: false,
+    id: 'F7FDD63344A0287E16',
+    participant: undefined
+  },
+  messageTimestamp: 1709489792,
+  pushName: 'Francisco Hernández',
+  broadcast: false,
+  message: Message {
+    extendedTextMessage: ExtendedTextMessage { text: 'Si', contextInfo: [ContextInfo] },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Si',
+  from: '5214641479724'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_5a85564a-2e14-461e-9f30-7f77e3ade48b',
+  keyword: 'key_a6f40d6c-6dd3-411b-9093-f6d09e9affa8',
+  answer: 'Cuéntanos sobre tu día.\nSomos todo oídos',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: false
+  },
+  refSerialize: '58b6611a68ae52d94e69cf31e89eb3f5'
 }
