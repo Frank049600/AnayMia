@@ -81,9 +81,7 @@ const flowGood = addKeyword(
         'Estoy feliz'
     ])
     .addAnswer('Nos da gusto saberlo.')
-    .addAnswer('¿Quieres platicarnos más sobre tu día?', {
-        delay: 1500
-    }, null, flowResponseOk)
+    .addAnswer('¿Quieres platicarnos más sobre tu día?', null, flowResponseOk)
 
 const flowAutoAtact = addKeyword(
     [
@@ -159,7 +157,7 @@ const flowConfianza = addKeyword(
 
 const flujoMessageFinal = addKeyword(EVENTS.ACTION).addAnswer('Nos vemos luego',
     {
-        media: "C:/Users/LAB04-08/Desktop/AnayMia/img/png-clipart-cartoon-animation-cartoon-farewell-party-cartoon-character-child.png"
+        media: RUTE_IMG + "png-clipart-cartoon-animation-cartoon-farewell-party-cartoon-character-child.png"
     })
 
 const DESPEDIDA = addKeyword(['adios', 'Adiós', 'Adios'])
@@ -182,6 +180,9 @@ const flowPrincipal = addKeyword(
         'hola,hola',
         'Hey',
         'Hola',
+        'hola',
+        'alo',
+        'Alo',
         'Que hay'
     ])
     .addAnswer(
@@ -190,42 +191,29 @@ const flowPrincipal = addKeyword(
             'Que gusto saludarte'
         ]
     )
-    .addAnswer('Creo que aun no nos conocemos 😧 , ¿Cuál es tu nombre?',
+    .addAnswer(['Creo que aun no nos conocemos 😧', '¿Cuál es tu nombre?'],
         {
             capture: true
         },
         async (ctx, { flowDynamic }) => {
             nombre = ctx.body
-            ///await flowDynamic(
-            ///    [
-            ///        `¡Encantadas en conocerte *${nombre}!*`,
-            ///        'Nosotras te brindaremos toda la atención que necesites y jamás te juzgaremos 😊',
-            ///        'Estas a salvo con nosotras',
-            ///        {
-            ///            delay: 2000,
-            ///        }
-            ///    ])
-            await flowDynamic(`Encantadas en conocerte ${nombre}`,
-                {
-                    media: RUTE_IMG + 'Ana&Mia.png'
-                })
+            return await flowDynamic(`Encantadas en conocerte ${nombre}`)
         }
     )
-    .addAnswer('¿Cómo te encuentras el día de hoy?',
+    .addAnswer('¿Cómo te sientes el día de hoy?',
         {
             capture: true
-        }, null, [flowBat, flowGood],
-        null, async (ctx) => {
+        },
+        async (ctx, { flowDynamic }) => {
             sentimiento = ctx.body
-        }
-    )
+        }, [flowBat, flowGood])
 
 const main = async () => {
     const adapterDB = new MongoAdapter({
         dbUri: MONGO_DB_URI,
         dbName: MONGO_DB_NAME,
     })
-    const adapterFlow = createFlow([flowPrincipal, flowConfianza, DESPEDIDA])
+    const adapterFlow = createFlow([flowPrincipal])
     const adapterProvider = createProvider(BaileysProvider)
     createBot({
         flow: adapterFlow,
