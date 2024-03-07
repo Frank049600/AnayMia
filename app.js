@@ -91,6 +91,7 @@ const flowAutoAtact = addKeyword(
 const flowOrientacion = addKeyword(
     [
         'No es suficiente tu ayuda',
+        'Conoces a alguien que me pueda ayudar',
         'Necesito mayor apoyo',
         'Necesito acudir con un profesional',
         'Ya no puedo mas con esto',
