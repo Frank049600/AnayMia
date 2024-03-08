@@ -46,11 +46,28 @@ const flowResponseOk = addKeyword(
             'Somos todo oídos'
         ])
 
+const flowResponseNo = addKeyword(
+    [
+        'No',
+        'no',
+        'En otro momento',
+        'en otro momento',
+        'No estoy listo',
+        'no estoy listo',
+        'No creo',
+        'no creo',
+        'No quiero',
+        'no quiero'
+    ])
+    .addAnswer(
+        [
+            'No te preocupes.',
+            'Puedes platicar con nosotras cuando estés list@'
+        ])
+
 const flowBat = addKeyword(
     [
         'Mal',
-        'pior',
-        'pesimo',
         'Me siento mal',
         'Me siento pésimo',
         'Me ha ido muy mal',
@@ -59,13 +76,10 @@ const flowBat = addKeyword(
         'Estoy mal',
         'Estoy triste'
     ])
-    .addAnswer(
-        [
-            'No te preocupes, todo mejorará'
-        ],
+    .addAnswer('No te preocupes, todo mejorará', null,
         async (ctx, { flowDynamic }) => {
             await flowDynamic(`¿Te gustaría platicar con nosotras ${nombre}?`)
-        })
+        }, [flowResponseOk])
 
 const flowGood = addKeyword(
     [
@@ -80,8 +94,11 @@ const flowGood = addKeyword(
         'Estoy bien',
         'Estoy feliz'
     ])
-    .addAnswer('Nos da gusto saberlo.')
-    .addAnswer('¿Quieres platicarnos más sobre tu día?', null, flowResponseOk)
+    .addAnswer(null, null,
+        async (ctx, { flowDynamic }) => {
+            await flowDynamic(`Nos da gusto saberlo ${nombre}?`)
+        })
+    .addAnswer('¿Quieres platicarnos más sobre tu día?', null, [flowResponseOk, flowResponseNo])
 
 const flowAutoAtact = addKeyword(
     [
@@ -174,6 +191,26 @@ const DESPEDIDA = addKeyword(['adios', 'Adiós', 'Adios'])
         }
     )
 
+//FUNCIÓN fullBack para capturar una dirección de correo electrónico
+const flowString = addKeyword(
+    [
+        'necesito mas información',
+        'necesito mas informacion',
+        'Necesito mas información',
+        'Necesito mas informacion'
+    ])
+    .addAnswer('Nos podrías pasar tu email para compartirte mayor información',
+        {
+            capture: true
+        },
+        async (ctx, { fallBack }) => {
+            if (!ctx.body.includes('@')) {
+                return fallBack()
+            } else {
+
+            }
+        })
+
 const flowPrincipal = addKeyword(
     [
         'Que tal',
@@ -213,7 +250,7 @@ const main = async () => {
         dbUri: MONGO_DB_URI,
         dbName: MONGO_DB_NAME,
     })
-    const adapterFlow = createFlow([flowPrincipal])
+    const adapterFlow = createFlow([flowPrincipal, flowString])
     const adapterProvider = createProvider(BaileysProvider)
     createBot({
         flow: adapterFlow,

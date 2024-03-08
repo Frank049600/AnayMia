@@ -1,0 +1,152 @@
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641074824@s.whatsapp.net',
+    fromMe: false,
+    id: '0CB96D6F0F7BD083E5',
+    participant: undefined
+  },
+  messageTimestamp: 1709863029,
+  pushName: 'Neftali Ramírez',
+  broadcast: false,
+  message: Message {
+    extendedTextMessage: ExtendedTextMessage { text: 'hola', contextInfo: [ContextInfo] },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'hola',
+  from: '5214641074824'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_5d10880b-2d9e-47b7-a23c-d00931414025',
+  keyword: 'key_c0d19021-9a8a-47ed-b6b8-bd1bdd2543ab',
+  answer: '¡Hola!, somos Ana&Mia 😁\nQue gusto saludarte',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: false
+  },
+  refSerialize: 'cfae09f50cb924c2fb76f68edcf581d9'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_f257c8a6-700b-4f08-aad1-c1e4dd1ea783',
+  keyword: 'ans_5d10880b-2d9e-47b7-a23c-d00931414025',
+  answer: 'Creo que aun no nos conocemos 😧\n¿Cuál es tu nombre?',
+  options: {
+    media: null,
+    buttons: [],
+    capture: true,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: 'f725a25fbc2ab09e2cc81458c12170ee'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641074824@s.whatsapp.net',
+    fromMe: false,
+    id: 'B1B8B13785C274C64B',
+    participant: undefined
+  },
+  messageTimestamp: 1709863033,
+  pushName: 'Neftali Ramírez',
+  broadcast: false,
+  message: Message {
+    extendedTextMessage: ExtendedTextMessage { text: 'sam', contextInfo: [ContextInfo] },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'sam',
+  from: '5214641074824'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_09f9d6b2-9a73-4d59-8a28-9dbae68a4cec',
+  keyword: 'ans_f257c8a6-700b-4f08-aad1-c1e4dd1ea783',
+  answer: '¿Cómo te sientes el día de hoy?',
+  options: {
+    media: null,
+    buttons: [],
+    capture: true,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [ [Object], [Object], [Object], [Object], [Object] ],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: '89abce4a60e38abf725a4a28d896b779'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641074824@s.whatsapp.net',
+    fromMe: false,
+    id: 'DA4DA873BB3C5C39D4',
+    participant: undefined
+  },
+  messageTimestamp: 1709863037,
+  pushName: 'Neftali Ramírez',
+  broadcast: false,
+  message: Message {
+    extendedTextMessage: ExtendedTextMessage { text: 'mal', contextInfo: [ContextInfo] },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'mal',
+  from: '5214641074824'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_4af21ea8-0fe5-413c-9836-1db76ea4bace',
+  keyword: 'key_25de9dd5-2fc0-46a7-8196-9f71a03fe252',
+  answer: 'No te preocupes, todo mejorará',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: 'e06811d87e7aeb7ea13781c2154f8bc6'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641074824@s.whatsapp.net',
+    fromMe: false,
+    id: 'F7FDB791E53C846FC7',
+    participant: undefined
+  },
+  messageTimestamp: 1709863045,
+  pushName: 'Neftali Ramírez',
+  broadcast: false,
+  message: Message {
+    extendedTextMessage: ExtendedTextMessage { text: 'si', contextInfo: [ContextInfo] },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'si',
+  from: '5214641074824'
+}
