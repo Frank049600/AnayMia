@@ -9,6 +9,7 @@ const {
 const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const MongoAdapter = require('@bot-whatsapp/database/mongo')
+
 //const { createBotDialog } = require('@bot-whatsapp/contexts/dialogflow')
 /**
  * Declaramos las conexiones de Mongo
@@ -24,15 +25,34 @@ const botondesentimiento = addKeyword('¿Cómo te sientes ?').addAnswer('Elige t
 //                RECURSOS                          //
 //                                                  //
 //             Se declaran las variables            //
-let RUTE_IMG = 'C:/Users/Paco/Desktop/AnayMia/img/'
+let datoGlobal = ''
+let url = 'C:/Users/Paco/Desktop/AnayMia/';
+let RUTE_IMG = url + 'img/'
+let db = []
+let dataUser
 let nombre
 let sentimiento
-
+/// Se crea una conexión con la API local
+const prompt = require("prompt-sync")({ sigint: true });
+// Se requiere la librería fs
+const fs = require('node:fs/promises')
+//addUser()
+getUser()
+//const userDBLocal = require(url + 'db/user.json')
+//console.log(userDBLocal);
 // Inicia con las interacciones del usuario
 const flowResponseOk = addKeyword(
     [
         'Si',
         'Si, me gustaría',
+        'Si me gustaria',
+        'me gustaria',
+        'me gustaría',
+        'Me gustaría',
+        'Me gustaria',
+        'Me encantaría',
+        'Me encantaria',
+        'me encantaría',
         'Claro',
         'Con gusto',
         'Simon',
@@ -78,7 +98,7 @@ const flowBat = addKeyword(
     ])
     .addAnswer('No te preocupes, todo mejorará', null,
         async (ctx, { flowDynamic }) => {
-            await flowDynamic(`¿Te gustaría platicar con nosotras ${nombre}?`)
+            await flowDynamic(`¿Te gustaría platicar con nosotras ${dataUser.nameUser}?`)
         }, [flowResponseOk])
 
 const flowGood = addKeyword(
@@ -96,7 +116,7 @@ const flowGood = addKeyword(
     ])
     .addAnswer(null, null,
         async (ctx, { flowDynamic }) => {
-            await flowDynamic(`Nos da gusto saberlo ${nombre}?`)
+            await flowDynamic(`Nos da gusto saberlo ${dataUser.nameUser}?`)
         })
     .addAnswer('¿Quieres platicarnos más sobre tu día?', null, [flowResponseOk, flowResponseNo])
 
@@ -234,8 +254,13 @@ const flowPrincipal = addKeyword(
             capture: true
         },
         async (ctx, { flowDynamic }) => {
-            nombre = ctx.body
-            return await flowDynamic(`Encantadas en conocerte ${nombre}`)
+            dataUser = {
+                from: ctx.from,
+                nameUser: ctx.body
+            }
+            userDB.append(dataUser)
+            console.log(userDB);
+            return await flowDynamic(`Encantadas en conocerte ${dataUser.nameUser}`)
         }
     )
     .addAnswer('¿Cómo te sientes el día de hoy?',
@@ -266,3 +291,30 @@ const main = async () => {
 }
 
 main()
+
+function getUser() {
+    const userDB = require(url + 'db/user.json')
+    console.log(userDB);
+    //fs.readFile('./db/user.json')
+    //    .then(datos => {
+    //        console.log(JSON.parse(datos.toString()));
+    //    })
+    //    .catch(error => {
+    //        console.log(error);
+    //    })
+}
+
+function addUser() {
+    let response
+    // Se elimina el archivo anterior
+    fs.unlink('./db/user.json')
+    // Se crea el nuevo archivo con la nueva información
+    fs.writeFile('./db/user.json', '{ "from": 52464148526, "userName": "Moises" }', error => {
+        if (error) {
+            console.log(error)
+        }
+        else {
+            console.log('Creado con éxito')
+        }
+    })
+}
