@@ -17,10 +17,6 @@ const MongoAdapter = require('@bot-whatsapp/database/mongo')
 const MONGO_DB_URI = 'mongodb+srv://anaymiachatbot:123456anaymia@projectanaymia.yiho2sz.mongodb.net/?retryWrites=true&w=majority'
 const MONGO_DB_NAME = 'anaymiaDB'
 
-const botondesentimiento = addKeyword('¿Cómo te sientes ?').addAnswer('Elige tu estado de animo', {
-    buttons: [{ body: 'Bien :)' }, { body: 'Mal :(' }, { body: 'Triste :((' }, { body: 'Muy Feliz :)' }, { body: 'No muy bien :Z' }],
-})
-
 //                                                  //
 //                RECURSOS                          //
 //                                                  //
@@ -28,18 +24,33 @@ const botondesentimiento = addKeyword('¿Cómo te sientes ?').addAnswer('Elige t
 let datoGlobal = ''
 let url = 'C:/Users/Paco/Desktop/AnayMia/';
 let RUTE_IMG = url + 'img/'
-let db = []
 let dataUser
 let nombre
 let sentimiento
-/// Se crea una conexión con la API local
-const prompt = require("prompt-sync")({ sigint: true });
 // Se requiere la librería fs
 const fs = require('node:fs/promises')
-//addUser()
-getUser()
-//const userDBLocal = require(url + 'db/user.json')
-//console.log(userDBLocal);
+const userDB = require(url + 'db/users.json')
+
+const botondesentimiento = addKeyword('¿Cómo te sientes ?').addAnswer('Elige tu estado de animo', {
+    buttons: [{ body: 'Bien :)' }, { body: 'Mal :(' }, { body: 'Triste :((' }, { body: 'Muy Feliz :)' }, { body: 'No muy bien :Z' }],
+})
+
+const flowThansk = addKeyword(
+    [
+        'gracias',
+        'Gracias',
+        'ok',
+        'Ok',
+        'Enterado',
+        'enterado',
+        'Entendido',
+        'eEntendido'
+    ])
+    .addAnswer('Quiérete, ámate, siéntete merecedor de todo lo bello del mundo desde el espíritu, no desde tu cuerpo nada más. Si aprendes a amar tu interior entenderás que tu exterior es perfecto como está.', null,
+        async (ctx, { flowDynamic }) => {
+            await flowDynamic(`${nombre} viniste a este mundo a ser feliz, no a buscar la perfección en tu cuerpo, eso solo puede conducirte a sufrir.`)
+        })
+
 // Inicia con las interacciones del usuario
 const flowResponseOk = addKeyword(
     [
@@ -62,8 +73,8 @@ const flowResponseOk = addKeyword(
     ])
     .addAnswer(
         [
-            'Cuéntanos sobre tu día.',
-            'Somos todo oídos'
+            'Maravilloso, no te contengas.',
+            'Somos todo oídos 🙃'
         ])
 
 const flowResponseNo = addKeyword(
@@ -79,11 +90,11 @@ const flowResponseNo = addKeyword(
         'No quiero',
         'no quiero'
     ])
-    .addAnswer(
-        [
-            'No te preocupes.',
-            'Puedes platicar con nosotras cuando estés list@'
-        ])
+    .addAnswer('Respetamos tu decisión 😉', null,
+        async (ctx, { flowDynamic }) => {
+            await flowDynamic(`Puedes platicarnos cuando tu lo decidas ${nombre}`)
+        })
+    .addAnswer('Recuerda que estamos para ti, siempre que nos necesites', null, null, [flowThansk])
 
 const flowBat = addKeyword(
     [
@@ -96,10 +107,14 @@ const flowBat = addKeyword(
         'Estoy mal',
         'Estoy triste'
     ])
-    .addAnswer('No te preocupes, todo mejorará', null,
+    .addAnswer('No te preocupes', null,
         async (ctx, { flowDynamic }) => {
-            await flowDynamic(`¿Te gustaría platicar con nosotras ${dataUser.nameUser}?`)
-        }, [flowResponseOk])
+            await flowDynamic(`Todo mejorará ${nombre} 😇`)
+        })
+    .addAnswer('¿Te gustaría platicar con nosotras 🙃?',
+        {
+            capture: true
+        }, null, [flowResponseOk, flowResponseNo])
 
 const flowGood = addKeyword(
     [
@@ -114,11 +129,14 @@ const flowGood = addKeyword(
         'Estoy bien',
         'Estoy feliz'
     ])
-    .addAnswer(null, null,
+    .addAnswer('Que alegría 😁', null,
         async (ctx, { flowDynamic }) => {
-            await flowDynamic(`Nos da gusto saberlo ${dataUser.nameUser}?`)
+            await flowDynamic(`Nos da gusto saberlo ${nombre}`)
         })
-    .addAnswer('¿Quieres platicarnos más sobre tu día?', null, [flowResponseOk, flowResponseNo])
+    .addAnswer('Te gustaría platicarnos más sobre tu día?',
+        {
+            capture: true
+        }, null, [flowResponseOk, flowResponseNo])
 
 const flowAutoAtact = addKeyword(
     [
@@ -169,7 +187,7 @@ const peticionde_ayuda = addKeyword(
     ])
 
 // PREGUNTAS
-const FLOPregunta = addKeyword(
+const flowPregunta = addKeyword(
     [
         'Quiero desahogarme',
         'Necesito platicar con alguien',
@@ -213,7 +231,7 @@ const DESPEDIDA = addKeyword(['adios', 'Adiós', 'Adios'])
     )
 
 //FUNCIÓN fullBack para capturar una dirección de correo electrónico
-const flowString = addKeyword(
+const flowEmail = addKeyword(
     [
         'necesito mas información',
         'necesito mas informacion',
@@ -232,6 +250,31 @@ const flowString = addKeyword(
             }
         })
 
+const flowRemember = addKeyword('USUARIOS_REGISTRADOS')
+    .addAnswer('Hola de nuevo, ¿Cómo has estado',
+        {
+            capture: true
+        }, [flowBat, flowGood])
+
+const flowKnow = addKeyword('USUARIOS_NO_REGISTRADOS')
+    .addAnswer(['Creo que aun no nos conocemos 😧', '¿Cuál es tu nombre?'],
+        {
+            capture: true
+        },
+        async (ctx, { flowDynamic }) => {
+            console.log(ctx.body);
+            addUser(ctx.from, ctx.body);
+            nombre = getUser(ctx.from)
+            return await flowDynamic(`Encantadas en conocerte ${nombre}`)
+        })
+    .addAnswer('¿Cómo te sientes el día de hoy?',
+        {
+            capture: true
+        },
+        async (ctx, { flowDynamic }) => {
+            sentimiento = ctx.body
+        }, [flowBat, flowGood])
+
 const flowPrincipal = addKeyword(
     [
         'Que tal',
@@ -243,26 +286,17 @@ const flowPrincipal = addKeyword(
         'Alo',
         'Que hay'
     ])
-    .addAnswer(
-        [
-            '¡Hola!, somos Ana&Mia 😁',
-            'Que gusto saludarte'
-        ]
-    )
+    .addAnswer('¡Hola! 🤗')
     .addAnswer(['Creo que aun no nos conocemos 😧', '¿Cuál es tu nombre?'],
         {
             capture: true
         },
         async (ctx, { flowDynamic }) => {
-            dataUser = {
-                from: ctx.from,
-                nameUser: ctx.body
-            }
-            userDB.append(dataUser)
-            console.log(userDB);
-            return await flowDynamic(`Encantadas en conocerte ${dataUser.nameUser}`)
-        }
-    )
+            console.log(ctx.body);
+            addUser(ctx.from, ctx.body);
+            nombre = getUser(ctx.from)
+            return await flowDynamic(`Encantadas en conocerte ${nombre}`)
+        })
     .addAnswer('¿Cómo te sientes el día de hoy?',
         {
             capture: true
@@ -276,7 +310,17 @@ const main = async () => {
         dbUri: MONGO_DB_URI,
         dbName: MONGO_DB_NAME,
     })
-    const adapterFlow = createFlow([flowPrincipal, flowString])
+    const adapterFlow = createFlow(
+        [
+            flowPrincipal,
+            flowEmail,
+            DESPEDIDA,
+            flowConfianza,
+            flowPregunta,
+            peticionde_ayuda,
+            flowOrientacion,
+            flowAutoAtact
+        ])
     const adapterProvider = createProvider(BaileysProvider)
     createBot({
         flow: adapterFlow,
@@ -290,31 +334,37 @@ const main = async () => {
     QRPortalWeb()
 }
 
-main()
-
-function getUser() {
-    const userDB = require(url + 'db/user.json')
-    console.log(userDB);
-    //fs.readFile('./db/user.json')
-    //    .then(datos => {
-    //        console.log(JSON.parse(datos.toString()));
-    //    })
-    //    .catch(error => {
-    //        console.log(error);
-    //    })
+// Función que consume la API local, donde se guardar los usuarios
+function getUser(params) {
+    let arrayFrom = []
+    for (let i = 0; i < userDB.length; i++) {
+        if (userDB[i].from == params) {
+            arrayFrom.push(userDB[i].userName)
+        }
+    }
+    if (arrayFrom != '') {
+        return arrayFrom[0];
+    } else {
+        return "vacio";
+    }
 }
 
-function addUser() {
-    let response
+// Función que borra y crea un nuevo json, con el objeto nuevo
+function addUser(phone, name) {
+    console.log(phone, name);
+    userDB.push({ from: phone, userName: name })
+    let obj = JSON.stringify(userDB)
     // Se elimina el archivo anterior
-    fs.unlink('./db/user.json')
+    //fs.unlink('./db/users.json')
     // Se crea el nuevo archivo con la nueva información
-    fs.writeFile('./db/user.json', '{ "from": 52464148526, "userName": "Moises" }', error => {
+    fs.writeFile('./db/users.json', obj, error => {
         if (error) {
             console.log(error)
         }
         else {
-            console.log('Creado con éxito')
+            console.log(array(error => 'Creado con éxito'))
         }
     })
 }
+
+main()
