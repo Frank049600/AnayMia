@@ -21,92 +21,41 @@ const MONGO_DB_NAME = 'anaymiaDB'
 //                RECURSOS                          //
 //                                                  //
 //             Se declaran las variables            //
-let datoGlobal = ''
 let url = 'C:/Users/Paco/Desktop/AnayMia/';
 let RUTE_IMG = url + 'img/'
-let dataUser
 let nombre
-let sentimiento
 // Se requiere la librería fs
 const fs = require('node:fs/promises')
 const userDB = require(url + 'db/users.json')
+const keywordLib = require(url + 'lib/keywords.json')
+const answerLib = require(url + 'lib/answers.json')
 
 const botondesentimiento = addKeyword('¿Cómo te sientes ?').addAnswer('Elige tu estado de animo', {
     buttons: [{ body: 'Bien :)' }, { body: 'Mal :(' }, { body: 'Triste :((' }, { body: 'Muy Feliz :)' }, { body: 'No muy bien :Z' }],
 })
 
-const flowThansk = addKeyword(
-    [
-        'gracias',
-        'Gracias',
-        'ok',
-        'Ok',
-        'Enterado',
-        'enterado',
-        'Entendido',
-        'eEntendido'
-    ])
+const flowThansk = addKeyword(keywordLib.flowThansk)
     .addAnswer('Quiérete, ámate, siéntete merecedor de todo lo bello del mundo desde el espíritu, no desde tu cuerpo nada más. Si aprendes a amar tu interior entenderás que tu exterior es perfecto como está.', null,
         async (ctx, { flowDynamic }) => {
             await flowDynamic(`${nombre} viniste a este mundo a ser feliz, no a buscar la perfección en tu cuerpo, eso solo puede conducirte a sufrir.`)
         })
 
 // Inicia con las interacciones del usuario
-const flowResponseOk = addKeyword(
-    [
-        'Si',
-        'Si, me gustaría',
-        'Si me gustaria',
-        'me gustaria',
-        'me gustaría',
-        'Me gustaría',
-        'Me gustaria',
-        'Me encantaría',
-        'Me encantaria',
-        'me encantaría',
-        'Claro',
-        'Con gusto',
-        'Simon',
-        'Por supuesto',
-        'Si, claro',
-        'ok'
-    ])
+const flowResponseOk = addKeyword(keywordLib.flowResponseOk)
     .addAnswer(
         [
             'Maravilloso, no te contengas.',
             'Somos todo oídos 🙃'
         ])
 
-const flowResponseNo = addKeyword(
-    [
-        'No',
-        'no',
-        'En otro momento',
-        'en otro momento',
-        'No estoy listo',
-        'no estoy listo',
-        'No creo',
-        'no creo',
-        'No quiero',
-        'no quiero'
-    ])
+const flowResponseNo = addKeyword(keywordLib.flowResponseNo)
     .addAnswer('Respetamos tu decisión 😉', null,
         async (ctx, { flowDynamic }) => {
             await flowDynamic(`Puedes platicarnos cuando tu lo decidas ${nombre}`)
         })
     .addAnswer('Recuerda que estamos para ti, siempre que nos necesites', null, null, [flowThansk])
 
-const flowBat = addKeyword(
-    [
-        'Mal',
-        'Me siento mal',
-        'Me siento pésimo',
-        'Me ha ido muy mal',
-        'No tan bien',
-        'No me encuentro nada bien',
-        'Estoy mal',
-        'Estoy triste'
-    ])
+const flowBat = addKeyword(keywordLib.flowBat)
     .addAnswer('No te preocupes', null,
         async (ctx, { flowDynamic }) => {
             await flowDynamic(`Todo mejorará ${nombre} 😇`)
@@ -116,19 +65,7 @@ const flowBat = addKeyword(
             capture: true
         }, null, [flowResponseOk, flowResponseNo])
 
-const flowGood = addKeyword(
-    [
-        'Bien',
-        'Grandioso',
-        'Muy bien',
-        'Genial',
-        'Chido',
-        'Me siento bien',
-        'Es un buen dia',
-        'Me encuentro  bien',
-        'Estoy bien',
-        'Estoy feliz'
-    ])
+const flowGood = addKeyword(keywordLib.flowGood)
     .addAnswer('Que alegría 😁', null,
         async (ctx, { flowDynamic }) => {
             await flowDynamic(`Nos da gusto saberlo ${nombre}`)
@@ -138,17 +75,7 @@ const flowGood = addKeyword(
             capture: true
         }, null, [flowResponseOk, flowResponseNo])
 
-const flowAutoAtact = addKeyword(
-    [
-        'Nadie me querrás así',
-        'Estoy obeso',
-        'Estoy obesa',
-        'Soy asquerosa',
-        'Soy asqueroso',
-        'Me veo mal',
-        'Estoy gordo',
-        'Estoy gorda'
-    ])
+const flowAutoAtact = addKeyword(keywordLib.flowAutoAtact)
     .addAnswer(
         [
             '¡No creo que sea verdad!',
@@ -156,18 +83,7 @@ const flowAutoAtact = addKeyword(
         ])
 
 //CREACIÓN DE FLUJO " ORIENTACIÓN CON PROFESIONALES"
-const flowOrientacion = addKeyword(
-    [
-        'No es suficiente tu ayuda',
-        'Conoces a alguien que me pueda ayudar',
-        'Necesito mayor apoyo',
-        'Necesito acudir con un profesional',
-        'Ya no puedo mas con esto',
-        'Creo que necesito mas ayuda',
-        'Me podrías ayudar mas',
-        'Necesito mas apoyo',
-        'Conoces a alguien mas que me pueda ayudar'
-    ])
+const flowOrientacion = addKeyword(keywordLib.flowOrientacion)
     .addAnswer([
         'No te preocupes te proporcionaremos una lista con los contactos de profesionales que te podran brindar un mayor apoyo. Acude con ellos cuanto antes. RECUERDA NO ESTAS SOL@.'])
     .addAnswer([
@@ -175,50 +91,27 @@ const flowOrientacion = addKeyword(
     ])
 
 //CREACIÓN DE FLUJO "PETICIÓN DE AYUDA"
-const peticionde_ayuda = addKeyword(
-    [
-        '¿Que debo hacer?',
-        'Tengo dudas',
-        'Estoy intranquila',
-        'Quiero platicar'
-    ])
-    .addAnswer([
-        'No te preocupes estamos para ayudarte, recuerda que somos tus amigas y estamos siempre para ti. Vamos a platicar va.'
-    ])
+const peticion_de_ayuda = addKeyword(keywordLib.peticion_de_ayuda)
+    .addAnswer('No te preocupes estamos para ayudarte, recuerda que somos tus amigas y estamos siempre para ti. Vamos a platicar va.')
 
 // PREGUNTAS
-const flowPregunta = addKeyword(
-    [
-        'Quiero desahogarme',
-        'Necesito platicar con alguien',
-        'Me gustaría hablar de mi situación',
-        'Quisiera hablar de como me siento'
-    ])
+const flowPregunta = addKeyword(keywordLib.flowPregunta)
     .addAnswer('Me gustaría escucharte, cuéntame, ¿cómo te sientes?')
 // Flujo - confianza
-const flowConfianza = addKeyword(
-    [
-        'No me acuses',
-        '¿No le avisaras a nadie?',
-        'Esto es secreto',
-        'No le comentes a nadie',
-        '¿Es seguro hablar contigo?',
-        '¿Es seguro hablar con ustedes?',
-        'No le digas a nadie',
-        '¿Le contaras a otra persona sobre esto?',
-        '¿Le contaran a otra persona sobre esto?',
-        '¿Alguien más se enterara de lo que cuento?'
-    ])
+const flowConfianza = addKeyword(keywordLib.flowConfianza)
     .addAnswer(['No te preocupes no le contare a nadie', 'Quedará entre nosotros'])
 
-const flujoMessageFinal = addKeyword(EVENTS.ACTION).addAnswer('Nos vemos luego',
+const flujoMessageFinal = addKeyword(EVENTS.ACTION).addAnswer(
+    [
+        '¿Platicamos 🙃?',
+        'Hace tiempo que no sabemos de ti'
+    ],
     {
         media: RUTE_IMG + "png-clipart-cartoon-animation-cartoon-farewell-party-cartoon-character-child.png"
     })
 
-const DESPEDIDA = addKeyword(['adios', 'Adiós', 'Adios'])
-    .addAnswer([
-        '¿De verdad ya no quieres platicar con nosotras? (No respondas nada si tu respuesta es "SI")'],
+const flowDespedida = addKeyword(keywordLib.flowDespedida)
+    .addAnswer(answerLib.flowDespedida,
         {
             capture: true,
             idle: 10000
@@ -231,13 +124,7 @@ const DESPEDIDA = addKeyword(['adios', 'Adiós', 'Adios'])
     )
 
 //FUNCIÓN fullBack para capturar una dirección de correo electrónico
-const flowEmail = addKeyword(
-    [
-        'necesito mas información',
-        'necesito mas informacion',
-        'Necesito mas información',
-        'Necesito mas informacion'
-    ])
+const flowEmail = addKeyword(keywordLib.flowEmail)
     .addAnswer('Nos podrías pasar tu email para compartirte mayor información',
         {
             capture: true
@@ -257,7 +144,7 @@ const flowRemember = addKeyword('USUARIOS_REGISTRADOS')
         }, [flowBat, flowGood])
 
 const flowKnow = addKeyword('USUARIOS_NO_REGISTRADOS')
-    .addAnswer(['Creo que aun no nos conocemos 😧', '¿Cuál es tu nombre?'],
+    .addAnswer(answerLib.flowKnow,
         {
             capture: true
         },
@@ -275,17 +162,14 @@ const flowKnow = addKeyword('USUARIOS_NO_REGISTRADOS')
             sentimiento = ctx.body
         }, [flowBat, flowGood])
 
-const flowPrincipal = addKeyword(
-    [
-        'Que tal',
-        'hola,hola',
-        'Hey',
-        'Hola',
-        'hola',
-        'alo',
-        'Alo',
-        'Que hay'
-    ])
+const flowGetName = addKeyword(keywordLib.flowGetName)
+    .addAnswer('🤗', null,
+        async (ctx, { flowDynamic }) => {
+            let youName = getUser(ctx.from)
+            return await flowDynamic(`Tu nombre es ${youName}`)
+        })
+
+const flowPrincipal = addKeyword(keywordLib.flowPrincipal)
     .addAnswer('¡Hola! 🤗')
     .addAnswer(['Creo que aun no nos conocemos 😧', '¿Cuál es tu nombre?'],
         {
@@ -314,12 +198,13 @@ const main = async () => {
         [
             flowPrincipal,
             flowEmail,
-            DESPEDIDA,
+            flowDespedida,
             flowConfianza,
             flowPregunta,
-            peticionde_ayuda,
+            peticion_de_ayuda,
             flowOrientacion,
-            flowAutoAtact
+            flowAutoAtact,
+            flowGetName
         ])
     const adapterProvider = createProvider(BaileysProvider)
     createBot({

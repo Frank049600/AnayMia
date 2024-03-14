@@ -1,0 +1,139 @@
+{
+    "flowPrincipal": [
+        "Hola",
+        "hola",
+        "Alo",
+        "alo",
+        "Aloja"
+    ],
+    "flowGetName": [
+        "¿Cómo me llamo?",
+        "Como me llamo?",
+        "¿cómo me llamo?",
+        "como me llamo",
+        "Dame mi nombre",
+        "dame mi nombre",
+        "Dime como me llamo",
+        "dime como me llamo",
+        "dime mi nombre"
+    ],
+    "flowEmail": [
+        "necesito mas información",
+        "necesito mas informacion",
+        "Necesito mas información",
+        "Necesito mas informacion"
+    ],
+    "flowDespedida": [
+        "adios",
+        "Adiós",
+        "Adios"
+    ],
+    "flowConfianza": [
+        "No me acuses",
+        "¿No le avisaras a nadie?",
+        "Esto es secreto",
+        "No le comentes a nadie",
+        "¿Es seguro hablar contigo?",
+        "¿Es seguro hablar con ustedes?",
+        "No le digas a nadie",
+        "¿Le contaras a otra persona sobre esto?",
+        "¿Le contaran a otra persona sobre esto?",
+        "¿Alguien más se enterara de lo que cuento?"
+    ],
+    "flowPregunta": [
+        "Quiero desahogarme",
+        "Necesito platicar con alguien",
+        "Me gustaría hablar de mi situación",
+        "Quisiera hablar de como me siento"
+    ],
+    "peticion_de_ayuda": [
+        "¿Que debo hacer?",
+        "Tengo dudas",
+        "Estoy intranquila",
+        "Quiero platicar"
+    ],
+    "flowOrientacion": [
+        "No es suficiente tu ayuda",
+        "Conoces a alguien que me pueda ayudar",
+        "Necesito mayor apoyo",
+        "Necesito acudir con un profesional",
+        "Ya no puedo mas con esto",
+        "Creo que necesito mas ayuda",
+        "Me podrías ayudar mas",
+        "Necesito mas apoyo",
+        "Conoces a alguien mas que me pueda ayudar"
+    ],
+    "flowAutoAtact": [
+        "Nadie me querrás así",
+        "Estoy obeso",
+        "Estoy obesa",
+        "Soy asquerosa",
+        "Soy asqueroso",
+        "Me veo mal",
+        "Estoy gordo",
+        "Estoy gorda"
+    ],
+    "flowGood": [
+        "Bien",
+        "Grandioso",
+        "Muy bien",
+        "Genial",
+        "Chido",
+        "Me siento bien",
+        "Es un buen dia",
+        "Me encuentro  bien",
+        "Estoy bien",
+        "Estoy feliz"
+    ],
+    "flowBat": [
+        "Mal",
+        "Me siento mal",
+        "Me siento pésimo",
+        "Me ha ido muy mal",
+        "No tan bien",
+        "No me encuentro nada bien",
+        "Estoy mal",
+        "Estoy triste"
+    ],
+    "flowResponseNo": [
+        "No",
+        "no",
+        "En otro momento",
+        "en otro momento",
+        "No estoy listo",
+        "no estoy listo",
+        "No creo",
+        "no creo",
+        "No quiero",
+        "no quiero"
+    ],
+    "flowResponseOk": [
+        "Si",
+        "Siii",
+        "Si, me gustaría",
+        "Si me gustaria",
+        "me gustaria",
+        "me gustaría",
+        "Me gustaría",
+        "Me gustaria",
+        "Me encantaría",
+        "Me encantaria",
+        "me encantaría",
+        "Claro",
+        "Con gusto",
+        "Simon",
+        "Por supuesto",
+        "Si, claro",
+        "ok"
+    ],
+    "flowThansk": [
+        "gracias",
+        "Gracias",
+        "ok",
+        "Ok",
+        "Enterado",
+        "enterado",
+        "Entendido",
+        "eEntendido"
+    ]
+}
