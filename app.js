@@ -34,7 +34,20 @@ const botondesentimiento = addKeyword('¿Cómo te sientes ?').addAnswer('Elige t
     buttons: [{ body: 'Bien :)' }, { body: 'Mal :(' }, { body: 'Triste :((' }, { body: 'Muy Feliz :)' }, { body: 'No muy bien :Z' }],
 })
 
-const flowThansk = addKeyword(keywordLib.flowThansk)
+const flowDespedida = addKeyword(keywordLib.flowDespedida)
+    .addAnswer(answerLib.flowDespedida,
+        {
+            capture: true,
+            idle: 10000
+        }, // idle: 10000 = 10 segundos
+        async (ctx, { gotoFlow, inRef }) => {
+            if (ctx?.idleFallBack) {
+                return gotoFlow(flujoMessageFinal)
+            }
+        }
+    )
+
+const flowThanks = addKeyword(keywordLib.flowThanks)
     .addAnswer('Quiérete, ámate, siéntete merecedor de todo lo bello del mundo desde el espíritu, no desde tu cuerpo nada más. Si aprendes a amar tu interior entenderás que tu exterior es perfecto como está.', null,
         async (ctx, { flowDynamic }) => {
             await flowDynamic(`${nombre} viniste a este mundo a ser feliz, no a buscar la perfección en tu cuerpo, eso solo puede conducirte a sufrir.`)
@@ -46,24 +59,24 @@ const flowResponseOk = addKeyword(keywordLib.flowResponseOk)
         [
             'Maravilloso, no te contengas.',
             'Somos todo oídos 🙃'
-        ])
+        ], null, null, [flowDespedida])
 
 const flowResponseNo = addKeyword(keywordLib.flowResponseNo)
-    .addAnswer('Respetamos tu decisión 😉', null,
+    .addAnswer('Respetamos tu decisión', null,
         async (ctx, { flowDynamic }) => {
             await flowDynamic(`Puedes platicarnos cuando tu lo decidas ${nombre}`)
         })
-    .addAnswer('Recuerda que estamos para ti, siempre que nos necesites', null, null, [flowThansk])
+    .addAnswer('Recuerda que estamos para ti, siempre que nos necesites 😉', null, null, [flowThanks, flowDespedida])
 
 const flowBat = addKeyword(keywordLib.flowBat)
     .addAnswer('No te preocupes', null,
-        async (ctx, { flowDynamic }) => {
-            await flowDynamic(`Todo mejorará ${nombre} 😇`)
+        async (_, { flowDynamic }) => {
+            return await flowDynamic(`Todo mejorará ${nombre} 😇`)
         })
     .addAnswer('¿Te gustaría platicar con nosotras 🙃?',
         {
             capture: true
-        }, null, [flowResponseOk, flowResponseNo])
+        }, null, [flowResponseOk, flowResponseNo, flowDespedida])
 
 const flowGood = addKeyword(keywordLib.flowGood)
     .addAnswer('Que alegría 😁', null,
@@ -73,7 +86,7 @@ const flowGood = addKeyword(keywordLib.flowGood)
     .addAnswer('Te gustaría platicarnos más sobre tu día?',
         {
             capture: true
-        }, null, [flowResponseOk, flowResponseNo])
+        }, null, [flowResponseOk, flowResponseNo, flowDespedida])
 
 const flowAutoAtact = addKeyword(keywordLib.flowAutoAtact)
     .addAnswer(
@@ -110,40 +123,37 @@ const flujoMessageFinal = addKeyword(EVENTS.ACTION).addAnswer(
         media: RUTE_IMG + "png-clipart-cartoon-animation-cartoon-farewell-party-cartoon-character-child.png"
     })
 
-const flowDespedida = addKeyword(keywordLib.flowDespedida)
-    .addAnswer(answerLib.flowDespedida,
-        {
-            capture: true,
-            idle: 10000
-        }, // idle: 10000 = 10 segundos
-        async (ctx, { gotoFlow, inRef }) => {
-            if (ctx?.idleFallBack) {
-                return gotoFlow(flujoMessageFinal)
-            }
-        }
-    )
-
 //FUNCIÓN fullBack para capturar una dirección de correo electrónico
 const flowEmail = addKeyword(keywordLib.flowEmail)
     .addAnswer('Nos podrías pasar tu email para compartirte mayor información',
         {
             capture: true
         },
-        async (ctx, { fallBack }) => {
+        async (ctx, { fallBack, flowDynamic }) => {
             if (!ctx.body.includes('@')) {
                 return fallBack()
             } else {
-
+                await flowDynamic('Gracias, en unos momento te mandamos más información')
             }
         })
 
-const flowRemember = addKeyword('USUARIOS_REGISTRADOS')
-    .addAnswer('Hola de nuevo, ¿Cómo has estado',
-        {
-            capture: true
-        }, [flowBat, flowGood])
+const flowRemember = addKeyword('evento')
+    .addAnswer('Que gusto 🤗', null,
+        async (ctx, { flowDynamic }) => {
+            nombre = getUser(ctx.from)
+            await flowDynamic(`¿Cómo has estado ${nombre}?`)
+        })
+    .addAction({ capture: true },
+        async (ctx, { gotoFlow }) => {
+            console.log(ctx.body);
+            if (keywordLib.flowGood.includes(ctx.body)) {
+                console.log('sista');
+            } else if (keywordLib.flowBat.includes(ctx.body)) {
+                return gotoFlow(flowBat);
+            }
+        })
 
-const flowKnow = addKeyword('USUARIOS_NO_REGISTRADOS')
+const flowKnow = addKeyword(EVENTS.ACTION)
     .addAnswer(answerLib.flowKnow,
         {
             capture: true
@@ -152,7 +162,7 @@ const flowKnow = addKeyword('USUARIOS_NO_REGISTRADOS')
             console.log(ctx.body);
             addUser(ctx.from, ctx.body);
             nombre = getUser(ctx.from)
-            return await flowDynamic(`Encantadas en conocerte ${nombre}`)
+            return await flowDynamic(`Encantadas en conocerte ${nombre} 🤗`)
         })
     .addAnswer('¿Cómo te sientes el día de hoy?',
         {
@@ -170,16 +180,20 @@ const flowGetName = addKeyword(keywordLib.flowGetName)
         })
 
 const flowPrincipal = addKeyword(keywordLib.flowPrincipal)
-    .addAnswer('¡Hola! 🤗')
-    .addAnswer(['Creo que aun no nos conocemos 😧', '¿Cuál es tu nombre?'],
+    .addAnswer(['¡Hola! 🤗', 'Creo que aun no nos conocemos 😧'])
+    .addAnswer('¿Cómo te llamas?',
         {
-            capture: true
+            capture: true,
+            delay: 500
         },
-        async (ctx, { flowDynamic }) => {
-            console.log(ctx.body);
-            addUser(ctx.from, ctx.body);
-            nombre = getUser(ctx.from)
-            return await flowDynamic(`Encantadas en conocerte ${nombre}`)
+        async (ctx, { fallBack, flowDynamic }) => {
+            if (requestInclude(ctx.body)) {
+                return fallBack()
+            } else {
+                addUser(ctx.from, ctx.body);
+                nombre = getUser(ctx.from);
+                await flowDynamic(`Encantadas en conocerte ${nombre} 🤗`)
+            }
         })
     .addAnswer('¿Cómo te sientes el día de hoy?',
         {
@@ -204,7 +218,8 @@ const main = async () => {
             peticion_de_ayuda,
             flowOrientacion,
             flowAutoAtact,
-            flowGetName
+            flowGetName,
+            flowRemember
         ])
     const adapterProvider = createProvider(BaileysProvider)
     createBot({
@@ -230,12 +245,23 @@ function getUser(params) {
     if (arrayFrom != '') {
         return arrayFrom[0];
     } else {
-        return "vacio";
+        return false;
     }
 }
 
 // Función que borra y crea un nuevo json, con el objeto nuevo
 function addUser(phone, name) {
+    // Busca en el JSON si ya existe un nombre para este usuario
+    // Si existe envía el parámetro delete
+    // llega el parámetro delete si ya existe un nombre para este usuario
+    // Borra el registro anterior para evitar ocupar memoria
+    if (getUser(phone)) {
+        for (let e = 0; e < userDB.length; e++) {
+            if (userDB[e].from == phone) {
+                userDB.splice(e, 1)
+            }
+        }
+    }
     console.log(phone, name);
     userDB.push({ from: phone, userName: name })
     let obj = JSON.stringify(userDB)
@@ -250,6 +276,31 @@ function addUser(phone, name) {
             console.log(array(error => 'Creado con éxito'))
         }
     })
+}
+
+// Función para verificar si existe JSON la palabra ingresada por el usuario
+function requestInclude(param) {
+    let array = Object.values(keywordLib)
+    let content = []
+    array.forEach(element => {
+        for (let i = 0; i < element.length; i++) {
+            content.push(element[i])
+        }
+    });
+    if (content.includes(param)) {
+        return true
+    } else {
+        return false
+    }
+}
+
+// Función para realizar un mensaje por default
+function respondeDefault(params, word) {
+    if (keywordLib[params].includes(word)) {
+        return true;
+    } else {
+        return 'Lo siento, No entiendo el mensaje';
+    }
 }
 
 main()

@@ -4,6 +4,12 @@ const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const MockAdapter = require('@bot-whatsapp/database/mock')
 
+const flowRemember = addKeyword(EVENTS.ACTION)
+    .addAction(async (ctx, { flowDynamic }) => {
+        nombre = getUser(ctx.from);
+        console.log('nombre');
+        await flowDynamic(`Que gusto 🤗, ¿Cómo has estado ${nombre}?`)
+    })
 
 const botondesentimiento = addKeyword('¿Cómo te sientes ?').addAnswer('Elige tu estado de animo', {
     buttons: [{ body: 'Bien :)' }, { body: 'Mal :(' }, { body: 'Triste :((' }, { body: 'Muy Feliz :)' }, { body: 'No muy bien :Z' }],
