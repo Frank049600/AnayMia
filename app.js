@@ -38,7 +38,7 @@ const flowDespedida = addKeyword(keywordLib.flowDespedida)
     .addAnswer(answerLib.flowDespedida,
         {
             capture: true,
-            idle: 10000
+            idle: 1000
         }, // idle: 10000 = 10 segundos
         async (ctx, { gotoFlow, inRef }) => {
             if (ctx?.idleFallBack) {
@@ -70,7 +70,7 @@ const flowResponseNo = addKeyword(keywordLib.flowResponseNo)
 
 const flowBat = addKeyword(keywordLib.flowBat)
     .addAnswer('No te preocupes', null,
-        async (_, { flowDynamic }) => {
+        async (ctx, { flowDynamic }) => {
             return await flowDynamic(`Todo mejorará ${nombre} 😇`)
         })
     .addAnswer('¿Te gustaría platicar con nosotras 🙃?',
@@ -180,8 +180,7 @@ const flowGetName = addKeyword(keywordLib.flowGetName)
         })
 
 const flowPrincipal = addKeyword(keywordLib.flowPrincipal)
-    .addAnswer(['¡Hola! 🤗', 'Creo que aun no nos conocemos 😧'])
-    .addAnswer('¿Cómo te llamas?',
+    .addAnswer(['¡Hola! 🤗', 'Creo que aun no nos conocemos 😧', '¿Cómo te llamas?'],
         {
             capture: true,
             delay: 500
