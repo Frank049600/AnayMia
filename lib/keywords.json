@@ -135,5 +135,9 @@
         "enterado",
         "Entendido",
         "eEntendido"
+    ],
+    "flowRemember": [
+        "Me recuerdas",
+        "Quién soy?"
     ]
 }

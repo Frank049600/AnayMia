@@ -26,6 +26,10 @@ let RUTE_IMG = url + 'img/'
 let nombre
 // Se requiere la librería fs
 const fs = require('node:fs/promises')
+const { param, get } = require('jquery')
+const { constrainedMemory } = require('node:process')
+const { delay } = require('@whiskeysockets/baileys')
+const { format } = require('node:path')
 const userDB = require(url + 'db/users.json')
 const keywordLib = require(url + 'lib/keywords.json')
 const answerLib = require(url + 'lib/answers.json')
@@ -35,7 +39,12 @@ const botondesentimiento = addKeyword('¿Cómo te sientes ?').addAnswer('Elige t
 })
 
 const flowDespedida = addKeyword(keywordLib.flowDespedida)
-    .addAnswer(answerLib.flowDespedida,
+    .addAnswer('Nos vemos luego 🤗', null,
+        async (ctx, { flowDynamic }) => {
+            nombre = getUser(ctx.from)
+            await flowDynamic(`No te olvides de nosotras ${nombre} 😉`)
+        })
+    .addAnswer("Quiérete, ámate, siéntete merecedor de todo lo bello del mundo desde el espíritu, no desde tu cuerpo nada más. Si aprendes a amar tu interior entenderás que tu exterior es perfecto como está.",
         {
             capture: true,
             idle: 1000
@@ -48,9 +57,13 @@ const flowDespedida = addKeyword(keywordLib.flowDespedida)
     )
 
 const flowThanks = addKeyword(keywordLib.flowThanks)
-    .addAnswer('Quiérete, ámate, siéntete merecedor de todo lo bello del mundo desde el espíritu, no desde tu cuerpo nada más. Si aprendes a amar tu interior entenderás que tu exterior es perfecto como está.', null,
+    .addAnswer('😇', null,
         async (ctx, { flowDynamic }) => {
-            await flowDynamic(`${nombre} viniste a este mundo a ser feliz, no a buscar la perfección en tu cuerpo, eso solo puede conducirte a sufrir.`)
+            await flowDynamic(
+                [
+                    `No hay por que agradecer ${nombre}`,
+                    `Es un placer poder ayudarte`
+                ], null, null, [flowDespedida])
         })
 
 // Inicia con las interacciones del usuario
@@ -64,14 +77,16 @@ const flowResponseOk = addKeyword(keywordLib.flowResponseOk)
 const flowResponseNo = addKeyword(keywordLib.flowResponseNo)
     .addAnswer('Respetamos tu decisión', null,
         async (ctx, { flowDynamic }) => {
-            await flowDynamic(`Puedes platicarnos cuando tu lo decidas ${nombre}`)
+            await flowDynamic(`Puedes hablar con nosotras cuando tu lo decidas ${nombre}`)
         })
     .addAnswer('Recuerda que estamos para ti, siempre que nos necesites 😉', null, null, [flowThanks, flowDespedida])
 
 const flowBat = addKeyword(keywordLib.flowBat)
-    .addAnswer('No te preocupes', null,
+    .addAnswer('Lo siento 😟', null,
         async (ctx, { flowDynamic }) => {
-            return await flowDynamic(`Todo mejorará ${nombre} 😇`)
+            nombre = getUser(ctx.from)
+            console.log(nombre)
+            await flowDynamic(`Pero no te preocupes, todo mejorará ${nombre} 😇`)
         })
     .addAnswer('¿Te gustaría platicar con nosotras 🙃?',
         {
@@ -80,7 +95,7 @@ const flowBat = addKeyword(keywordLib.flowBat)
 
 const flowGood = addKeyword(keywordLib.flowGood)
     .addAnswer('Que alegría 😁', null,
-        async (ctx, { flowDynamic }) => {
+        async (_, { flowDynamic }) => {
             await flowDynamic(`Nos da gusto saberlo ${nombre}`)
         })
     .addAnswer('Te gustaría platicarnos más sobre tu día?',
@@ -98,7 +113,7 @@ const flowAutoAtact = addKeyword(keywordLib.flowAutoAtact)
 //CREACIÓN DE FLUJO " ORIENTACIÓN CON PROFESIONALES"
 const flowOrientacion = addKeyword(keywordLib.flowOrientacion)
     .addAnswer([
-        'No te preocupes te proporcionaremos una lista con los contactos de profesionales que te podran brindar un mayor apoyo. Acude con ellos cuanto antes. RECUERDA NO ESTAS SOL@.'])
+        'No te preocupes te proporcionaremos una lista con los contactos de profesionales que te podrán brindar un mayor apoyo. Acude con ellos cuanto antes. RECUERDA NO ESTAS SOL@.'])
     .addAnswer([
         '(LISTA DE CONTACTOS)'
     ])
@@ -114,14 +129,12 @@ const flowPregunta = addKeyword(keywordLib.flowPregunta)
 const flowConfianza = addKeyword(keywordLib.flowConfianza)
     .addAnswer(['No te preocupes no le contare a nadie', 'Quedará entre nosotros'])
 
-const flujoMessageFinal = addKeyword(EVENTS.ACTION).addAnswer(
-    [
-        '¿Platicamos 🙃?',
-        'Hace tiempo que no sabemos de ti'
-    ],
-    {
-        media: RUTE_IMG + "png-clipart-cartoon-animation-cartoon-farewell-party-cartoon-character-child.png"
-    })
+const flujoMessageFinal = addKeyword(EVENTS.ACTION)
+    .addAnswer('Hola, hace mucho que no sabemos de ti',
+        {
+            media: RUTE_IMG + "png-clipart-cartoon-animation-cartoon-farewell-party-cartoon-character-child.png"
+        })
+    .addAnswer('¿Platicamos 🙃?', null, null, [flowResponseOk, flowResponseNo])
 
 //FUNCIÓN fullBack para capturar una dirección de correo electrónico
 const flowEmail = addKeyword(keywordLib.flowEmail)
@@ -137,70 +150,33 @@ const flowEmail = addKeyword(keywordLib.flowEmail)
             }
         })
 
-const flowRemember = addKeyword('evento')
-    .addAnswer('Que gusto 🤗', null,
-        async (ctx, { flowDynamic }) => {
-            nombre = getUser(ctx.from)
-            await flowDynamic(`¿Cómo has estado ${nombre}?`)
-        })
-    .addAction({ capture: true },
-        async (ctx, { gotoFlow }) => {
-            console.log(ctx.body);
-            if (keywordLib.flowGood.includes(ctx.body)) {
-                console.log('sista');
-            } else if (keywordLib.flowBat.includes(ctx.body)) {
-                return gotoFlow(flowBat);
-            }
-        })
-
-const flowKnow = addKeyword(EVENTS.ACTION)
-    .addAnswer(answerLib.flowKnow,
-        {
-            capture: true
-        },
-        async (ctx, { flowDynamic }) => {
-            console.log(ctx.body);
-            addUser(ctx.from, ctx.body);
-            nombre = getUser(ctx.from)
-            return await flowDynamic(`Encantadas en conocerte ${nombre} 🤗`)
-        })
-    .addAnswer('¿Cómo te sientes el día de hoy?',
-        {
-            capture: true
-        },
-        async (ctx, { flowDynamic }) => {
-            sentimiento = ctx.body
-        }, [flowBat, flowGood])
-
-const flowGetName = addKeyword(keywordLib.flowGetName)
-    .addAnswer('🤗', null,
-        async (ctx, { flowDynamic }) => {
-            let youName = getUser(ctx.from)
-            return await flowDynamic(`Tu nombre es ${youName}`)
-        })
+const flowRemember = addKeyword(keywordLib.flowRemember)
+    .addAnswer('Que gusto saludarte de nuevo 😄')
+    .addAnswer('¿Cómo te sientes el día de hoy?', { capture: true }, null, [flowBat, flowGood])
 
 const flowPrincipal = addKeyword(keywordLib.flowPrincipal)
-    .addAnswer(['¡Hola! 🤗', 'Creo que aun no nos conocemos 😧', '¿Cómo te llamas?'],
+    .addAnswer('¡Hola! 🤗', null,
+        async (ctx, { gotoFlow }) => {
+            if (getUser(ctx.from)) {
+                nombre = getUser(ctx.from)
+                return gotoFlow(flowRemember)
+            }
+        }
+    )
+    .addAnswer(['Creo que aun no nos conocemos 😧', '¿Cómo te llamas?'],
         {
             capture: true,
-            delay: 500
         },
-        async (ctx, { fallBack, flowDynamic }) => {
+        async (ctx, { gotoFlow, flowDynamic }) => {
             if (requestInclude(ctx.body)) {
-                return fallBack()
+                return gotoFlow(flowPrincipal)
             } else {
                 addUser(ctx.from, ctx.body);
                 nombre = getUser(ctx.from);
                 await flowDynamic(`Encantadas en conocerte ${nombre} 🤗`)
             }
         })
-    .addAnswer('¿Cómo te sientes el día de hoy?',
-        {
-            capture: true
-        },
-        async (ctx, { flowDynamic }) => {
-            sentimiento = ctx.body
-        }, [flowBat, flowGood])
+    .addAnswer('¿Cómo te sientes el día de hoy?', { capture: true }, null, [flowBat, flowGood])
 
 const main = async () => {
     const adapterDB = new MongoAdapter({
@@ -211,13 +187,11 @@ const main = async () => {
         [
             flowPrincipal,
             flowEmail,
-            flowDespedida,
             flowConfianza,
             flowPregunta,
             peticion_de_ayuda,
             flowOrientacion,
             flowAutoAtact,
-            flowGetName,
             flowRemember
         ])
     const adapterProvider = createProvider(BaileysProvider)
@@ -233,7 +207,7 @@ const main = async () => {
     QRPortalWeb()
 }
 
-// Función que consume la API local, donde se guardar los usuarios
+// Función que consume la API local, donde se guardan los usuarios
 function getUser(params) {
     let arrayFrom = []
     for (let i = 0; i < userDB.length; i++) {
@@ -246,6 +220,28 @@ function getUser(params) {
     } else {
         return false;
     }
+}
+
+function updateFeel() {
+    let params = 5214641479724
+    let newFeel = 'bien'
+    let newFrom, newUserName
+    userDB.forEach(user => {
+        newFrom = user.from
+        newUserName = user.userName
+    });
+    let newUser = {
+        from: newFrom,
+        userName: newUserName,
+        feel: newFeel
+    }
+    //for (let e = 0; e < userDB.length; e++) {
+    //    if (userDB[e].from == params) {
+    //        userDB.splice(e, 1)
+    //    }
+    //}
+    userDB.push(newUser)
+    console.log(userDB)
 }
 
 // Función que borra y crea un nuevo json, con el objeto nuevo
@@ -294,11 +290,12 @@ function requestInclude(param) {
 }
 
 // Función para realizar un mensaje por default
-function respondeDefault(params, word) {
-    if (keywordLib[params].includes(word)) {
-        return true;
+function respondeDefault(param, wordUser) {
+    let wordsLib = param.ctx.keyword
+    if (wordsLib.includes(wordUser)) {
+        return true
     } else {
-        return 'Lo siento, No entiendo el mensaje';
+        return false
     }
 }
 
