@@ -47,7 +47,7 @@ const flowDespedida = addKeyword(keywordLib.flowDespedida)
     .addAnswer("Quiérete, ámate, siéntete merecedor de todo lo bello del mundo desde el espíritu, no desde tu cuerpo nada más. Si aprendes a amar tu interior entenderás que tu exterior es perfecto como está.",
         {
             capture: true,
-            idle: 1000
+            idle: 60000 // 1 minuto
         }, // idle: 10000 = 10 segundos
         async (ctx, { gotoFlow, inRef }) => {
             if (ctx?.idleFallBack) {
@@ -168,12 +168,16 @@ const flowPrincipal = addKeyword(keywordLib.flowPrincipal)
             capture: true,
         },
         async (ctx, { gotoFlow, flowDynamic }) => {
-            if (requestInclude(ctx.body)) {
-                return gotoFlow(flowPrincipal)
+            if (lengthInput(ctx.body)) {
+                if (keywordLib.nameApodo.includes(ctx.body) || getApodos().includes(ctx.body)) {
+                    return gotoFlow(flowPrincipal)
+                } else {
+                    addUser(ctx.from, ctx.body);
+                    nombre = getUser(ctx.from);
+                    await flowDynamic(`Encantadas en conocerte ${nombre} 🤗`)
+                }
             } else {
-                addUser(ctx.from, ctx.body);
-                nombre = getUser(ctx.from);
-                await flowDynamic(`Encantadas en conocerte ${nombre} 🤗`)
+                return gotoFlow(flowPrincipal)
             }
         })
     .addAnswer('¿Cómo te sientes el día de hoy?', { capture: true }, null, [flowBat, flowGood])
@@ -205,6 +209,21 @@ const main = async () => {
     //    database: adapterDB,
     //})
     QRPortalWeb()
+}
+
+function lengthInput(param) {
+    if (param.length > 20) {
+        return false
+    }
+    return true
+}
+
+function getApodos() {
+    let apodo = [];
+    (keywordLib.nameApodo).forEach(element => {
+        apodo.push(element.toLowerCase())
+    });
+    return apodo
 }
 
 // Función que consume la API local, donde se guardan los usuarios

@@ -1,0 +1,287 @@
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641203468@s.whatsapp.net',
+    fromMe: false,
+    id: '0487DDE8E12241F8AA6758008D8393C1',
+    participant: undefined
+  },
+  messageTimestamp: 1712867248,
+  pushName: 'Liz🥰',
+  broadcast: false,
+  message: Message {
+    protocolMessage: ProtocolMessage { key: [MessageKey], type: 0 },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '',
+  from: '5214641203468'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641203468@s.whatsapp.net',
+    fromMe: false,
+    id: 'F3C3C5E30F8212918FBB39F0AFAC08A2',
+    participant: undefined
+  },
+  messageTimestamp: 1712867253,
+  pushName: 'Liz🥰',
+  broadcast: false,
+  message: Message {
+    conversation: 'Hola',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Hola',
+  from: '5214641203468'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_60f8acc7-fef6-4478-a600-e3fb25e7326f',
+  keyword: 'key_2708f139-c537-4def-bff8-5cb7bf8accc1',
+  answer: '¡Hola! 🤗',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: '24bd3c02623b1e8a83a21c24b32eed00'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641203468@s.whatsapp.net',
+    fromMe: false,
+    id: 'C29EB62BB279ABACD0934EEFC3901FEA',
+    participant: undefined
+  },
+  messageTimestamp: 1712867261,
+  pushName: 'Liz🥰',
+  broadcast: false,
+  message: Message {
+    conversation: 'Bien',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Bien',
+  from: '5214641203468'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_ed73bd80-26f9-40c4-81af-b9ac4083dfaf',
+  keyword: 'key_24e6134e-fe4c-4742-a67b-aedc2ee176b7',
+  answer: 'Que alegría 😁',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: 'ac13e87e335126c5631b8dee35723212'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_426c352f-e28d-4b21-b37f-85f5fa11aef2',
+  keyword: 'ans_ed73bd80-26f9-40c4-81af-b9ac4083dfaf',
+  answer: 'Te gustaría platicarnos más sobre tu día?',
+  options: {
+    media: null,
+    buttons: [],
+    capture: true,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object]
+    ],
+    keyword: {},
+    callback: false
+  },
+  refSerialize: '31bc74dcaf45dd1814fe801c78eedd25'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641203468@s.whatsapp.net',
+    fromMe: false,
+    id: '29535F3E4C8504AABF3CAC4F0D930A3B',
+    participant: undefined
+  },
+  messageTimestamp: 1712867267,
+  pushName: 'Liz🥰',
+  broadcast: false,
+  message: Message {
+    conversation: 'No',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'No',
+  from: '5214641203468'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_470bca87-fd38-4761-b374-ee423230798b',
+  keyword: 'key_124abfba-415d-4a97-9ee1-d85f08947b47',
+  answer: 'Respetamos tu decisión',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: 'a0d88dcc1a58af426dc7d6527aee3acb'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_69335881-7e4e-487f-b42e-5c9e52686ec6',
+  keyword: 'ans_470bca87-fd38-4761-b374-ee423230798b',
+  answer: 'Recuerda que estamos para ti, siempre que nos necesites 😉',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [ [Object], [Object], [Object], [Object], [Object] ],
+    keyword: {},
+    callback: false
+  },
+  refSerialize: '1a6fe4b228f2649220e21feb0a066c4e'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641203468@s.whatsapp.net',
+    fromMe: false,
+    id: '0EC3CC787766635BC61E6E05939EEE15',
+    participant: undefined
+  },
+  messageTimestamp: 1712867287,
+  pushName: 'Liz🥰',
+  broadcast: false,
+  message: Message {
+    conversation: 'Adiós',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Adiós',
+  from: '5214641203468'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_eab497e3-8273-4776-afa9-2a50aaa62205',
+  keyword: 'key_78a91ab1-a5a7-4eb5-b19b-f52d117441e5',
+  answer: 'Nos vemos luego 🤗',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: 'a4e2619186c251fd760c4cb8c4c336d4'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_771b6969-b314-4063-b523-870d2f278066',
+  keyword: 'ans_eab497e3-8273-4776-afa9-2a50aaa62205',
+  answer: 'Quiérete, ámate, siéntete merecedor de todo lo bello del mundo desde el espíritu, no desde tu cuerpo nada más. Si aprendes a amar tu interior entenderás que tu exterior es perfecto como está.',
+  options: {
+    media: null,
+    buttons: [],
+    capture: true,
+    child: null,
+    delay: 0,
+    idle: 120000,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: '6d4c47fd8e89da5c2cd60ce6ad3cc240'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5214641203468@s.whatsapp.net',
+    fromMe: false,
+    id: 'FD564E4FE85D75E9BCCAB0839110C706',
+    participant: undefined
+  },
+  messageTimestamp: 1712867439,
+  pushName: 'Liz🥰',
+  broadcast: false,
+  message: Message {
+    conversation: 'No',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'No',
+  from: '5214641203468'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_470bca87-fd38-4761-b374-ee423230798b',
+  keyword: 'key_124abfba-415d-4a97-9ee1-d85f08947b47',
+  answer: 'Respetamos tu decisión',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: 'a0d88dcc1a58af426dc7d6527aee3acb'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_69335881-7e4e-487f-b42e-5c9e52686ec6',
+  keyword: 'ans_470bca87-fd38-4761-b374-ee423230798b',
+  answer: 'Recuerda que estamos para ti, siempre que nos necesites 😉',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [ [Object], [Object], [Object], [Object], [Object] ],
+    keyword: {},
+    callback: false
+  },
+  refSerialize: '1a6fe4b228f2649220e21feb0a066c4e'
+}

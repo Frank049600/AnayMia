@@ -4,7 +4,15 @@
         "hola",
         "Alo",
         "alo",
-        "Aloja"
+        "Aloja",
+        "Buenos días",
+        "Buenos dias",
+        "Buenas tardes",
+        "Buenas noches",
+        "Hola, buenos días",
+        "Hola, buenos dias",
+        "Hola, buenas tardes",
+        "Hola, buenas noches"
     ],
     "flowGetName": [
         "¿Cómo me llamo?",
@@ -21,7 +29,9 @@
         "necesito mas información",
         "necesito mas informacion",
         "Necesito mas información",
-        "Necesito mas informacion"
+        "Necesito mas informacion",
+        "Necesito más informacion",
+        "Necesito más información"
     ],
     "flowDespedida": [
         "adios",
@@ -318,6 +328,7 @@
         "Boo",
         "Cookie",
         "Cupacke",
+        "Chiripas",
         "Love bug",
         "Pumpikin",
         "Sweet pea",
@@ -335,8 +346,10 @@
         "Calambres",
         "Gansito",
         "Jarrito",
-        "tacita",
-        "pocillo",
+        "Tacita",
+        "Pocillo",
+        "Tortas",
+        "Chavito",
         "Polilla",
         "Comal",
         "Foca",
@@ -381,8 +394,6 @@
         "Cucaracho",
         "Tachi",
         "Manitas",
-        "Manitas",
-        "Masoquista",
         "Masoquista",
         "Maso",
         "Shit",
@@ -393,6 +404,7 @@
         "Poncha",
         "Gordita",
         "Mamagringas",
-        "Mama gringas"
+        "Mama gringas",
+        "Puchis"
     ]
 }
